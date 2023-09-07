@@ -1,1 +1,2 @@
-export { Layout } from './layout/index';
+export { Layout } from './layout';
+export {CadastroProdutos} from './produtos'
