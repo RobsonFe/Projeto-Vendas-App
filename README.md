@@ -1,38 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Sistema de Vendas
 
-## Getting Started
+## Visão Geral
 
-First, run the development server:
+Este documento descreve o projeto em andamento de um Sistema de Vendas, que visa criar uma aplicação robusta para gerenciamento de vendas e estoque de produtos para atender as necessidades de uma loja de departamento. O desenvolvimento é dividido em front-end e back-end, com a utilização das tecnologias Next.js, TypeScript e BulmaCSS no front-end, e Java com Spring Boot e PostgreSQL no back-end.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Objetivo do Projeto
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O principal objetivo deste projeto é desenvolver um Sistema de Vendas completo que permita a gestão eficiente de produtos para uma loja de departamento. A aplicação será capaz de registrar vendas, atualizar o estoque de produtos automaticamente e fornecer relatórios detalhados sobre as operações comerciais da loja.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Tecnologias Utilizadas
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Front-End
+- **Next.js**: Um framework React que oferece alta performance e facilidades para o desenvolvimento de interfaces de usuário interativas.
+- **TypeScript**: Uma linguagem de programação que acrescenta tipagem estática ao JavaScript, tornando o código mais seguro e legível.
+- **BulmaCSS**: Um framework CSS leve e responsivo, ideal para o design de interfaces modernas e agradáveis.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Back-End
+- **Java**: Uma linguagem de programação amplamente usada para desenvolvimento de aplicativos empresariais.
+- **Spring Boot**: Um framework Java que simplifica o desenvolvimento de aplicativos web e API Rest, oferecendo recursos poderosos.
+- **PostgreSQL**: Um sistema de gerenciamento de banco de dados relacional de código aberto, adequado para armazenar dados críticos.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Arquitetura Geral
 
-## Learn More
+O projeto segue uma arquitetura de aplicação Full-Stack com uma clara separação entre o front-end e o back-end.
 
-To learn more about Next.js, take a look at the following resources:
+### Front-End
+O front-end é desenvolvido com Next.js e TypeScript para garantir um código sólido e manutenível. A interface de usuário é projetada usando o BulmaCSS para criar uma experiência visual atraente. A aplicação se comunica com o back-end por meio de solicitações HTTP, permitindo o registro de vendas, consulta de produtos e exibição de relatórios.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Back-End
+O back-end é construído em Java com o Spring Boot, proporcionando uma base sólida para a criação de uma API Rest segura e eficiente. O PostgreSQL é usado para armazenar informações relacionadas a vendas, produtos e estoque. O back-end gerencia a lógica de negócios, autenticação de usuários, persistência de dados e disponibiliza endpoints para interações do front-end.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Fluxo de Desenvolvimento
 
-## Deploy on Vercel
+O desenvolvimento do projeto segue uma metodologia iterativa e incremental, com base em práticas ágeis. O trabalho é gerenciado em um sistema de controle de versão, como o GitHub, para garantir a colaboração eficaz e o rastreamento de alterações.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Conclusão
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Este documento fornece uma visão geral do projeto em andamento do Sistema de Vendas Full-Stack, destacando as tecnologias utilizadas, a arquitetura geral do sistema. O projeto tem como objetivo criar uma aplicação completa para gerenciamento de vendas e estoque, oferecendo uma experiência de usuário eficiente e contribuindo para o sucesso do negócio.
