@@ -1,4 +1,4 @@
-package br.com.robson;
+package br.com.robson.rest.produto;
 
 import java.math.BigDecimal;
 
@@ -39,6 +39,6 @@ public class ProdutoFormRequest {
 				+ "]";
 	}
 	
-	
 
 }
+

@@ -1,4 +1,4 @@
-package br.com.robson;
+package br.com.robson.rest.produto;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
