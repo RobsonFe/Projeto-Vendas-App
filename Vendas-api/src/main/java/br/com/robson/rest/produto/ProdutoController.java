@@ -1,6 +1,7 @@
 package br.com.robson.rest.produto;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import br.com.robson.model.repository.ProdutoRepository;
 
 @RestController // Controlador da operação
 @RequestMapping("/api/produtos") // Request para localizar o mapeamento da pagina/ a rota.
+@CrossOrigin("*") // aceita APIs externas poderia ser "http://localhost:3000/"
 public class ProdutoController {
 	
 		@Autowired  //Faz a instancia da classe.
