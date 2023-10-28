@@ -1,12 +1,14 @@
 package br.com.robson.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity // Marca a classe como uma entidade
@@ -29,6 +31,9 @@ public class Produto {
 	@Column
 	private String sku;
 	
+	@Column (name = "data_cadastro")
+	private LocalDate dataCadastro;
+	
 	public Produto() {
 		super();
 	}
@@ -41,7 +46,21 @@ public class Produto {
 		this.sku = sku;
 	}
 
+	
 
+	public Produto(Long id, String nome, String descricao, BigDecimal preco, String sku) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+		this.preco = preco;
+		this.sku = sku;
+	}
+	
+	@PrePersist
+	public void prePersist() {
+		setDataCadastro(LocalDate.now());
+	} // Esse metodo faz o seguinte, antes de persistir(salvar o dado) ele irá pegar a data atual.
 
 	public Long getId() {
 		return id;
@@ -81,6 +100,14 @@ public class Produto {
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+
+	public LocalDate getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDate dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 
 	@Override

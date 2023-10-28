@@ -21,12 +21,21 @@ public class ProdutoController {
 		@PostMapping // recebenfdo o metodo post de uma requisição
 		public ProdutoFormRequest salvar(@RequestBody ProdutoFormRequest produto) {
 			
-			Produto entidadeProduto = new Produto(produto.getNome(), produto.getDescricao(), produto.getPreco(), produto.getSku());
+			
+//			Produto entidadeProduto = new Produto(produto.getNome(), produto.getDescricao(), produto.getPreco(), produto.getSku());
+			
+			Produto entidadeProduto = produto.toModel();
 			
 			repository.save(entidadeProduto);
 			
-			System.out.println(entidadeProduto);
-			return produto;
+//			produto.setId(entidadeProduto.getId());
+			
+//			return produto;
+			
+			return ProdutoFormRequest.fromModel(entidadeProduto);
+			
+//			System.out.println(entidadeProduto);
+//			return produto;
 			
 		} // RequestBody convertendo um arquivo Json em String vindo do corpo da requisição. 
 		//Classe ProdutoFormRequest sendo instanciada para receber os dados do Front-End como parametro. 
