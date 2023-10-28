@@ -86,7 +86,11 @@ export const CadastroProdutos: React.FC = () => {
 
             <div className="field is-grouped">
                 <div className="control">
-                    <button className="button is-link" onClick={submit}>Salvar</button>
+                    <button className="button is-link" onClick={submit}>
+                        {
+                            id ? "Atualizar" : "Salvar"
+                        }
+                    </button>
                     <button className="button is-link is-light">Voltar</button>
                 </div>
             </div>
