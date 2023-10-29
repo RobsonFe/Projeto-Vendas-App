@@ -3,6 +3,7 @@ import { Layout } from "components";
 import { useProdutoService } from 'app/services';
 import { Produto } from 'app/models/produtos';
 
+
 export const CadastroProdutos: React.FC = () => {
     const service = useProdutoService();
     const [nome, setNome] = useState('');
@@ -14,18 +15,35 @@ export const CadastroProdutos: React.FC = () => {
 
     const submit = () => {
         const produtos: Produto = {
+            id: id,
             nome: nome,
             preco: parseFloat(preco),
             sku: sku,
             descricao: descricao
         };
 
-        service.salvar(produtos)
-        .then(produtoResposta => {
-            setId(produtoResposta.id);
-            setCadastro(produtoResposta.cadastro);
+        if(id){
+
+            service.atualizar(produtos)
+            .then(response => console.log("Atualizado!"))
+
+        }else{
+
+            service.salvar(produtos)
+           .then(produtoResposta => {
+            if (produtoResposta.id !== undefined) {
+                setId(produtoResposta.id);
+            }
+            if (produtoResposta.cadastro !== undefined) {
+                setCadastro(produtoResposta.cadastro);
+            }
         });
+
+        }
+
+
     };
+
 
     return (
         <Layout titulo="Cadastro de Produtos">
