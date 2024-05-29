@@ -16,14 +16,14 @@ import br.com.robson.model.repository.ProdutoRepository;
 
 
 @RestController // Controlador da operação
-@RequestMapping("/api/produtos") // Request para localizar o mapeamento da pagina/ a rota.
+@RequestMapping("/api/produtos") // Request para localizar o mapeamento da página/ a rota.
 @CrossOrigin("*") // aceita APIs externas poderia ser "http://localhost:3000/"
 public class ProdutoController {
 	
 		@Autowired  //Faz a instancia da classe.
 		private ProdutoRepository repository;
 		
-		@PostMapping // recebenfdo o metodo post de uma requisição
+		@PostMapping // recebendo o metodo post de uma requisição
 		public ProdutoFormRequest salvar(@RequestBody ProdutoFormRequest produto) {
 			
 			
