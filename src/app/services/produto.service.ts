@@ -7,9 +7,12 @@ const resourceURL: string = "/api/produtos"
 export const useProdutoService = () => {
 
     const salvar = async (produto: Produto): Promise<Produto> => {
+        
+        console.log("Produto a ser salvo:", JSON.stringify(produto, null, 2));
 
         const response: AxiosResponse<Produto> = await httpClient.post<Produto>(resourceURL, produto)
 
+        console.log("Produto Cadastrado Com Sucesso!")
         return response.data;
     }
 
