@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Layout } from "components";
-import { useProdutoService } from 'app/services';
 import { Produto } from 'app/models/produtos';
+import { useProdutoService } from 'app/services';
+import { Layout } from "components";
+import React, { useState } from 'react';
 
 
 export const CadastroProdutos: React.FC = () => {
@@ -38,10 +38,7 @@ export const CadastroProdutos: React.FC = () => {
                 setCadastro(produtoResposta.cadastro);
             }
         });
-
         }
-
-
     };
 
 

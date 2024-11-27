@@ -1,17 +1,12 @@
-import { ReactNode } from "react";
-import { Menu } from "./menu";
-
-interface LayoutProps{
-    titulo?: string;
-    children?: ReactNode;
-}
+import { LayoutProps } from "interfaces/layout.interface";
+import { Sidebar } from "./sidebar";
 
 export const Layout: React.FC<LayoutProps> = (props: LayoutProps) =>{
 
     return(
         <div className="app">
             <section className="main-content columns is-fullheight">
-                <Menu />
+                <Sidebar />
                 <div className="container column is-10">
                     <div className="section">
                         <div className="card">

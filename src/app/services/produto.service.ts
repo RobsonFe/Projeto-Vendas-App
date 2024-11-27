@@ -8,7 +8,7 @@ export const useProdutoService = () => {
 
     const salvar = async (produto: Produto): Promise<Produto> => {
         
-        console.log("Produto a ser salvo:", JSON.stringify(produto, null, 2));
+        console.log("Produto a ser salvo:", JSON.stringify(produto, null, 4));
 
         const response: AxiosResponse<Produto> = await httpClient.post<Produto>(resourceURL, produto)
 
