@@ -1,6 +1,8 @@
-package br.com.robson.rest.produto;
+package br.com.robson.controller;
 
 import java.util.Optional;
+
+import br.com.robson.dto.ProdutoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.robson.model.Produto;
-import br.com.robson.model.repository.ProdutoRepository;
+import br.com.robson.repository.ProdutoRepository;
 
 
 @RestController // Controlador da operação
@@ -24,7 +26,7 @@ public class ProdutoController {
 		private ProdutoRepository repository;
 		
 		@PostMapping // recebendo o metodo post de uma requisição
-		public ProdutoFormRequest salvar(@RequestBody ProdutoFormRequest produto) {
+		public ProdutoDTO salvar(@RequestBody ProdutoDTO produto) {
 			
 			
 //			Produto entidadeProduto = new Produto(produto.getNome(), produto.getDescricao(), produto.getPreco(), produto.getSku());
@@ -37,7 +39,7 @@ public class ProdutoController {
 			
 //			return produto;
 			
-			return ProdutoFormRequest.fromModel(entidadeProduto);
+			return ProdutoDTO.fromModel(entidadeProduto);
 			
 //			System.out.println(entidadeProduto);
 //			return produto;
@@ -51,7 +53,7 @@ public class ProdutoController {
 		// Atualizando o produto
 		
 		@PutMapping("{id}")
-		public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody ProdutoFormRequest produto) {
+		public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody ProdutoDTO produto) {
 			
 			Optional<Produto> produtoExistente = repository.findById(id);
 			

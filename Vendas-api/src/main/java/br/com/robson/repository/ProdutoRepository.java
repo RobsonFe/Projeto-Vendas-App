@@ -1,4 +1,4 @@
-package br.com.robson.model.repository;
+package br.com.robson.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

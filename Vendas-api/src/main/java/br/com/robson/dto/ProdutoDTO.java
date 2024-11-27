@@ -1,4 +1,4 @@
-package br.com.robson.rest.produto;
+package br.com.robson.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.robson.model.Produto;
 
-public class ProdutoFormRequest {
+public class ProdutoDTO {
 	
 	private Long id;
 	private String descricao;
@@ -18,12 +18,12 @@ public class ProdutoFormRequest {
 	@JsonFormat(pattern = "dd/MM/yyyy") // para retornar um Json no formato de data especifico.
 	private LocalDate cadastro;
 	
-	public ProdutoFormRequest() {
+	public ProdutoDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProdutoFormRequest(Long id, String descricao, String nome, BigDecimal preco, String sku,LocalDate cadastro) {
+	public ProdutoDTO(Long id, String descricao, String nome, BigDecimal preco, String sku, LocalDate cadastro) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
@@ -37,8 +37,8 @@ public class ProdutoFormRequest {
 		return new Produto(id , nome, descricao, preco, sku);
 	}// converter o objeto produto em model
 	
-	public static ProdutoFormRequest fromModel(Produto produto) {
-		return new ProdutoFormRequest(
+	public static ProdutoDTO fromModel(Produto produto) {
+		return new ProdutoDTO(
 				produto.getId(), 
 				produto.getDescricao(), 
 				produto.getNome(), 
