@@ -6,38 +6,80 @@ import React, { useState } from 'react';
 
 export const CadastroProdutos: React.FC = () => {
     const service = useProdutoService();
-    const [nome, setNome] = useState('');
-    const [preco, setPreco] = useState('');
-    const [sku, setSku] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [id, setId] = useState<string>('');
-    const [cadastro, setCadastro] = useState<string>('');
+    const [produto, setProduto] = useState<Produto>({
+        nome: '',
+        preco: 0,
+        sku: '',
+        descricao: '',
+        id: '',
+        cadastro: ''
+    });
+    const [erro, setErro] = useState<string>('');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        // Converter preco para número, se for necessário.
+        if (name === 'preco') {
+            setProduto(prev => ({
+                ...prev,
+                [name]: parseFloat(value) || 0 
+            }));
+        } else {
+            setProduto(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
+    };
+
+    const validarFormulario = () => {
+        if (!produto.nome || !produto.preco || !produto.sku || !produto.descricao) {
+            setErro('Todos os campos obrigatórios precisam ser preenchidos.');
+            return false;
+        }
+
+        if (produto.preco < 0) {
+            setErro('O preço do produto não pode ser negativo.');
+            return false;
+        }
+
+        if (isNaN(produto.preco)) {
+            setErro('O preço do produto deve ser um número.');
+            return false;
+        }
+
+        if (produto.preco === 0) { 
+            setErro('O preço do produto não pode ser zero.');
+            return false;
+        }
+
+        if (produto.sku.length < 3) {
+            setErro('O SKU do produto deve ter no mínimo 3 caracteres.');
+            return false;
+        }
+
+        setErro('');
+        return true;
+    };
 
     const submit = () => {
-        const produtos: Produto = {
-            id: id,
-            nome: nome,
-            preco: parseFloat(preco),
-            sku: sku,
-            descricao: descricao
-        };
+        if (!validarFormulario()) return;
+        
+         const produtoParaSalvar: Produto = { ...produto, preco: parseFloat(produto.preco?.toString() || '0') };
 
-        if(id){
-
-            service.atualizar(produtos)
-            .then(response => console.log("Atualizado!"))
-
+        if(produto.id){
+            service.atualizar(produtoParaSalvar)
+                .catch(error => setErro('Erro ao atualizar o produto.'));
         }else{
-
-            service.salvar(produtos)
-           .then(produtoResposta => {
-            if (produtoResposta.id !== undefined) {
-                setId(produtoResposta.id);
-            }
-            if (produtoResposta.cadastro !== undefined) {
-                setCadastro(produtoResposta.cadastro);
-            }
-        });
+            service.salvar(produtoParaSalvar)
+                .then(produtoResposta => {
+                    setProduto({
+                        ...produto,
+                        id: produtoResposta.id,  // Atualiza o id recebido após salvar
+                        cadastro: produtoResposta.cadastro // Atualiza a data de cadastro
+                    });
+                })
+                .catch(error => setErro('Erro ao salvar o produto. Tente novamente.'));
         }
     };
 
@@ -45,21 +87,21 @@ export const CadastroProdutos: React.FC = () => {
     return (
         <Layout titulo="Cadastro de Produtos">
 
-            { id &&
+            { produto.id &&
 
             <div className="columns">
 
                 <div className="field is-half column">
-                    <label className="label" htmlFor="inputCodigo">Código</label>
+                    <label className="label" htmlFor="id">Código</label>
                     <div className="control">
-                        <input className="input" id="inputCodigo" value={id} type="text" disabled />
+                        <input className="input" id="id" name='id' value={produto.id} type="text" disabled />
                     </div>
                 </div>
 
                 <div className="field is-half column">
-                    <label className="label" htmlFor="inputDataCadastro">Data de Cadastro</label>
+                    <label className="label" htmlFor="cadastro">Data de Cadastro</label>
                     <div className="control">
-                        <input className="input" id="inputDataCadastro" value={cadastro} type="text" disabled />
+                        <input className="input" id="cadastro" name='cadastro' value={produto.cadastro} type="text" disabled />
                     </div>
                 </div>
             </div>
@@ -67,34 +109,34 @@ export const CadastroProdutos: React.FC = () => {
 
             <div className="columns">
                 <div className="field column is-full">
-                    <label className="label" htmlFor="inputNome">Nome: *</label>
+                    <label className="label" htmlFor="nome">Nome: *</label>
                     <div className="control">
-                        <input className="input" id="inputNome" value={nome} onChange={event => setNome(event.target.value)} type="text" placeholder="Digite o Nome do Produto" required />
+                        <input className="input" id="nome" name='nome' value={produto.nome} onChange={handleChange} type="text" placeholder="Digite o Nome do Produto" required />
                     </div>
                 </div>
             </div>
 
             <div className="columns">
                 <div className="field is-half column">
-                    <label className="label" htmlFor="inputPreco">Preço: *</label>
+                    <label className="label" htmlFor="preco">Preço: *</label>
                     <div className="control">
-                        <input className="input" id="inputPreco" value={preco} onChange={event => setPreco(event.target.value)} type="text" placeholder="Digite o Preço do Produto" required />
+                        <input className="input" id="preco" name='preco' value={produto.preco} onChange={handleChange} type="text" placeholder="Digite o Preço do Produto" required />
                     </div>
                 </div>
 
                 <div className="field is-half column">
-                    <label className="label" htmlFor="inputSKU">SKU: *</label>
+                    <label className="label" htmlFor="sku">SKU: *</label>
                     <div className="control">
-                        <input className="input" id="inputSKU" value={sku} onChange={event => setSku(event.target.value)} type="text" placeholder="Digite o SKU do Produto" required />
+                        <input className="input" id="sku" name='sku' value={produto.sku} onChange={handleChange} type="text" placeholder="Digite o SKU do Produto" required />
                     </div>
                 </div>
             </div>
 
             <div className="columns">
                 <div className="field column is-full">
-                    <label className="label" htmlFor="inputDesc">Descrição: *</label>
+                    <label className="label" htmlFor="descricao">Descrição: *</label>
                     <div className="control">
-                        <textarea className="textarea" id="inputDesc" value={descricao} onChange={event => setDescricao(event.target.value)} placeholder="Digite a Descrição do Produto" required />
+                        <textarea className="textarea" id="descricao" name='descricao' value={produto.descricao} onChange={handleChange} placeholder="Digite a Descrição do Produto" required />
                     </div>
                 </div>
             </div>
@@ -103,12 +145,15 @@ export const CadastroProdutos: React.FC = () => {
                 <div className="control">
                     <button className="button is-link" onClick={submit}>
                         {
-                            id ? "Atualizar" : "Salvar"
+                            produto.id ? "Atualizar" : "Salvar"
                         }
                     </button>
                     <button className="button is-link is-light">Voltar</button>
                 </div>
             </div>
+
+            {erro && <p className="has-text-danger">{erro}</p>}
+            
         </Layout>
     );
 };

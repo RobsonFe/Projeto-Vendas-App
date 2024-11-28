@@ -20,6 +20,7 @@ export const useProdutoService = () => {
 
         const url: string = `${resourceURL}/${produto.id}`; 
         await httpClient.put<Produto>(url, produto);
+        console.log("Produto Atualizado Com Sucesso!", JSON.stringify(produto, null, 4));
     }
 
     return {
