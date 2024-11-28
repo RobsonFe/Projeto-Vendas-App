@@ -33,33 +33,35 @@ export const CadastroProdutos: React.FC = () => {
     };
 
     const validarFormulario = () => {
-        if (!produto.nome || !produto.preco || !produto.sku || !produto.descricao) {
-            setErro('Todos os campos obrigatórios precisam ser preenchidos.');
-            return false;
-        }
+        const validationCase = () => {
+            if (!produto.nome || !produto.preco || !produto.sku || !produto.descricao) return 1;
+            if (produto.preco < 0) return 2;
+            if (isNaN(produto.preco)) return 3;
+            if (produto.preco === 0) return 4;
+            if (produto.sku.length < 3) return 5;
+            return 0;
+        };
 
-        if (produto.preco < 0) {
-            setErro('O preço do produto não pode ser negativo.');
-            return false;
+        switch (validationCase()) {
+            case 1:
+                setErro('Todos os campos obrigatórios precisam ser preenchidos.');
+                return false;
+            case 2:
+                setErro('O preço do produto não pode ser negativo.');
+                return false;
+            case 3:
+                setErro('O preço do produto deve ser um número.');
+                return false;
+            case 4:
+                setErro('O preço do produto não pode ser zero.');
+                return false;
+            case 5:
+                setErro('O SKU do produto deve ter no mínimo 3 caracteres.');
+                return false;
+            default:
+                setErro('');
+                return true;
         }
-
-        if (isNaN(produto.preco)) {
-            setErro('O preço do produto deve ser um número.');
-            return false;
-        }
-
-        if (produto.preco === 0) { 
-            setErro('O preço do produto não pode ser zero.');
-            return false;
-        }
-
-        if (produto.sku.length < 3) {
-            setErro('O SKU do produto deve ter no mínimo 3 caracteres.');
-            return false;
-        }
-
-        setErro('');
-        return true;
     };
 
     const submit = () => {
