@@ -1,6 +1,7 @@
 import { Produto } from 'app/models/produtos';
 import { useProdutoService } from 'app/services';
 import { Layout } from "components";
+import { Input } from 'components/common';
 import React, { useState } from 'react';
 
 
@@ -108,15 +109,7 @@ export const CadastroProdutos: React.FC = () => {
                 </div>
             </div>
             }
-
-            <div className="columns">
-                <div className="field column is-full">
-                    <label className="label" htmlFor="nome">Nome: *</label>
-                    <div className="control">
-                        <input className="input" id="nome" name='nome' value={produto.nome} onChange={handleChange} type="text" placeholder="Digite o Nome do Produto" required />
-                    </div>
-                </div>
-            </div>
+            <Input label="Nome" className='is-full' name="nome" value={produto.nome} placeholder='Digite o nome do Produto' onChange={handleChange} type="text" />
 
             <div className="columns">
                 <div className="field is-half column">
@@ -126,6 +119,9 @@ export const CadastroProdutos: React.FC = () => {
                     </div>
                 </div>
 
+                {/* <Input label="Preço: *" className='is-half' name="preco" value={produto.preco} onChange={handleChange} type="text" />
+                <Input label="SKU: *" className='is-half' name="sku" value={produto.sku} onChange={handleChange} type="text" /> */}
+                
                 <div className="field is-half column">
                     <label className="label" htmlFor="sku">SKU: *</label>
                     <div className="control">

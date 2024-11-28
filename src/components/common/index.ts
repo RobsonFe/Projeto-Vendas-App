@@ -1,1 +1,3 @@
-// export { Input } from './input'
+export { Input } from './input/index';
+export { Loader } from './loader/index';
+
