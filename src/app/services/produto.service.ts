@@ -7,20 +7,23 @@ const resourceURL: string = "/api/produtos"
 export const useProdutoService = () => {
 
     const salvar = async (produto: Produto): Promise<Produto> => {
-        
-        console.log("Produto a ser salvo:", JSON.stringify(produto, null, 4));
-
-        const response: AxiosResponse<Produto> = await httpClient.post<Produto>(resourceURL, produto)
-
-        console.log("Produto Cadastrado Com Sucesso!")
-        return response.data;
+        try {     
+            const response: AxiosResponse<Produto> = await httpClient.post<Produto>(resourceURL, produto)
+            console.log("Produto Salvo Com Sucesso! ", JSON.stringify(produto, null, 4));
+            return response.data;
+        } catch (error) {
+            throw new Error(`${error}`);
+        }
     }
 
-    const atualizar = async (produto: Produto) : Promise<void> => {
-
-        const url: string = `${resourceURL}/${produto.id}`; 
-        await httpClient.put<Produto>(url, produto);
-        console.log("Produto Atualizado Com Sucesso!", JSON.stringify(produto, null, 4));
+    const atualizar = async (produto: Produto): Promise<void> => {
+        try {
+            const url: string = `${resourceURL}/${produto.id}`; 
+            await httpClient.put<Produto>(url, produto);
+            console.log("Produto Atualizado Com Sucesso!", JSON.stringify(produto, null, 4));
+        } catch (error) {
+            throw new Error(`${error}`);
+        }
     }
 
     return {

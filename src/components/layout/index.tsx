@@ -1,4 +1,4 @@
-import { LayoutProps } from "interfaces/layout.interface";
+import { LayoutProps } from "app/interfaces/layout.interface";
 import { Sidebar } from "./sidebar";
 
 export const Layout: React.FC<LayoutProps> = (props: LayoutProps) =>{

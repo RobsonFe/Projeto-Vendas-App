@@ -115,7 +115,7 @@ export const CadastroProdutos: React.FC = () => {
             }
             <div className='columns'>
                 <Input
-                    label="Nome"
+                    label="Nome: *"
                     className='is-full'
                     name="nome"
                     value={produto.nome}
@@ -150,10 +150,18 @@ export const CadastroProdutos: React.FC = () => {
                 <div className="field column is-full">
                     <label className="label" htmlFor="descricao">Descrição: *</label>
                     <div className="control">
-                        <textarea className="textarea" id="descricao" name='descricao' value={produto.descricao} onChange={handleChange} placeholder="Digite a Descrição do Produto" required />
+                        <textarea className="textarea"
+                            id="descricao"
+                            name='descricao'
+                            value={produto.descricao}
+                            onChange={handleChange}
+                            placeholder="Digite a Descrição do Produto"
+                            required
+                        />
                     </div>
                 </div>
             </div>
+            
               <div className="field is-grouped">
                 <div className="control is-link">
                     <button onClick={submit} className="button is-link">
