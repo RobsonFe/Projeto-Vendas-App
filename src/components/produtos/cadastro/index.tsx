@@ -9,7 +9,7 @@ export const CadastroProdutos: React.FC = () => {
     const service = useProdutoService();
     const [produto, setProduto] = useState<Produto>({
         nome: '',
-        preco: 0,
+        preco: undefined,
         sku: '',
         descricao: '',
         id: '',
@@ -93,42 +93,58 @@ export const CadastroProdutos: React.FC = () => {
             { produto.id &&
 
             <div className="columns">
-
-                <div className="field is-half column">
-                    <label className="label" htmlFor="id">Código</label>
-                    <div className="control">
-                        <input className="input" id="id" name='id' value={produto.id} type="text" disabled />
-                    </div>
-                </div>
-
-                <div className="field is-half column">
-                    <label className="label" htmlFor="cadastro">Data de Cadastro</label>
-                    <div className="control">
-                        <input className="input" id="cadastro" name='cadastro' value={produto.cadastro} type="text" disabled />
-                    </div>
-                </div>
+                    <Input
+                        label="Código"
+                        className='is-half'
+                        id='id'
+                        name="id"
+                        value={produto.id}
+                        type="text"
+                        disabled
+                    />
+                    <Input
+                        label="Data de Cadastro"
+                        className='is-half'
+                        id='cadastro'
+                        name="cadastro"
+                        value={produto.cadastro}
+                        type="text"
+                        disabled
+                    />
             </div>
             }
-            <Input label="Nome" className='is-full' name="nome" value={produto.nome} placeholder='Digite o nome do Produto' onChange={handleChange} type="text" />
-
-            <div className="columns">
-                <div className="field is-half column">
-                    <label className="label" htmlFor="preco">Preço: *</label>
-                    <div className="control">
-                        <input className="input" id="preco" name='preco' value={produto.preco} onChange={handleChange} type="text" placeholder="Digite o Preço do Produto" required />
-                    </div>
-                </div>
-
-                {/* <Input label="Preço: *" className='is-half' name="preco" value={produto.preco} onChange={handleChange} type="text" />
-                <Input label="SKU: *" className='is-half' name="sku" value={produto.sku} onChange={handleChange} type="text" /> */}
-                
-                <div className="field is-half column">
-                    <label className="label" htmlFor="sku">SKU: *</label>
-                    <div className="control">
-                        <input className="input" id="sku" name='sku' value={produto.sku} onChange={handleChange} type="text" placeholder="Digite o SKU do Produto" required />
-                    </div>
-                </div>
+            <div className='columns'>
+                <Input
+                    label="Nome"
+                    className='is-full'
+                    name="nome"
+                    value={produto.nome}
+                    placeholder='Digite o nome do Produto'
+                    onChange={handleChange}
+                    type="text"
+                />
             </div>
+            
+            <div className='columns'>
+                <Input label="Preço: *"
+                    className='is-half'
+                    name="preco"
+                    value={produto.preco}
+                    onChange={handleChange}
+                    type="text"
+                    placeholder='Digite o preço do Produto'
+                />
+                
+                <Input label="SKU: *"
+                    className='is-half'
+                    name="sku"
+                    value={produto.sku}
+                    onChange={handleChange}
+                    type="text"
+                    placeholder='Digite o SKU do Produto'
+                />
+            </div>
+        
 
             <div className="columns">
                 <div className="field column is-full">
@@ -138,17 +154,18 @@ export const CadastroProdutos: React.FC = () => {
                     </div>
                 </div>
             </div>
-
-            <div className="field is-grouped">
-                <div className="control">
-                    <button className="button is-link" onClick={submit}>
-                        {
+              <div className="field is-grouped">
+                <div className="control is-link">
+                    <button onClick={submit} className="button is-link">
+                       {
                             produto.id ? "Atualizar" : "Salvar"
-                        }
+                       }
                     </button>
+                </div>
+                <div className="control">
                     <button className="button is-link is-light">Voltar</button>
                 </div>
-            </div>
+           </div>
 
             {erro && <p className="has-text-danger">{erro}</p>}
             

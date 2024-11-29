@@ -12,12 +12,12 @@ export const Input: React.FC<Props> = ({
 		...props
 }) => {
 	return (
-			<div className="columns">
+			
 					<div className={`field column ${props?.className}`}>
 					<label className="label" htmlFor={name}>{label}</label>
 							<div className="control">
 						<input className="input"
-							id={props?.id}
+							id={props?.id || name}
 							name={name}
 							value={value}
 							onChange={onChange}
@@ -27,7 +27,7 @@ export const Input: React.FC<Props> = ({
 							/>
 							</div>
 				</div>
-			</div>
+
 
 		);
 };

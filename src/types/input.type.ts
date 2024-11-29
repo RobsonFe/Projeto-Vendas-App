@@ -5,5 +5,5 @@ export type InputProps = {
 		name: string;
 		value: string | undefined | number;
 		type?: string;
-		onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+		onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 } 
