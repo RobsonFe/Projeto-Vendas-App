@@ -8,6 +8,7 @@ export const Input: React.FC<Props> = ({
 		name,
 		value,
 		onChange,
+		disabled,
 		type,
 		...props
 }) => {
@@ -23,7 +24,7 @@ export const Input: React.FC<Props> = ({
 							onChange={onChange}
 							type={type}
 							placeholder={props?.placeholder}
-							required 
+							disabled={disabled}
 							/>
 							</div>
 				</div>

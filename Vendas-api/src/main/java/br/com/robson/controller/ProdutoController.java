@@ -1,72 +1,42 @@
 package br.com.robson.controller;
 
-import java.util.Optional;
-
 import br.com.robson.dto.ProdutoDTO;
+import br.com.robson.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.robson.model.Produto;
-import br.com.robson.repository.ProdutoRepository;
 
+import java.util.Optional;
 
-@RestController // Controlador da operação
-@RequestMapping("/api/produtos") // Request para localizar o mapeamento da página/ a rota.
-@CrossOrigin("*") // aceita APIs externas poderia ser "http://localhost:3000/"
+@RestController
+@RequestMapping("/api/produtos")
+@CrossOrigin("*")
 public class ProdutoController {
-	
-		@Autowired  //Faz a instancia da classe.
-		private ProdutoRepository repository;
-		
-		@PostMapping // recebendo o metodo post de uma requisição
-		public ProdutoDTO salvar(@RequestBody ProdutoDTO produto) {
-			
-			
-//			Produto entidadeProduto = new Produto(produto.getNome(), produto.getDescricao(), produto.getPreco(), produto.getSku());
-			
-			Produto entidadeProduto = produto.toModel();
-			
-			repository.save(entidadeProduto);
-			
-//			produto.setId(entidadeProduto.getId());
-			
-//			return produto;
-			
-			return ProdutoDTO.fromModel(entidadeProduto);
-			
-//			System.out.println(entidadeProduto);
-//			return produto;
-			
-			// RequestBody convertendo um arquivo Json em String vindo do corpo da requisição. 
-			//Classe ProdutoFormRequest sendo instanciada para receber os dados do Front-End como parametro. 
 
-			
-			}
-		
-		// Atualizando o produto
-		
-		@PutMapping("{id}")
-		public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody ProdutoDTO produto) {
-			
-			Optional<Produto> produtoExistente = repository.findById(id);
-			
-			if(produtoExistente.isEmpty()) {
-				return ResponseEntity.notFound().build();
-			}
-			
-			// O repository só atualiza o produto se chamar um id, se não chamar id, ele vai salvar.
-			Produto entidade = produto.toModel();
-			entidade.setId(id);
-			repository.save(entidade);
-			
+	@Autowired
+	private ProdutoService produtoService;
+
+	// Método para salvar um produto
+	@PostMapping
+	public ResponseEntity<ProdutoDTO> salvar(@RequestBody ProdutoDTO produtoDTO) {
+		Produto produtoSalvo = produtoService.salvar(produtoDTO);
+		ProdutoDTO produtoDTOSalvo = ProdutoDTO.fromModel(produtoSalvo);
+		return ResponseEntity.ok(produtoDTOSalvo);
+	}
+
+	// Método para atualizar um produto
+	@PutMapping("{id}")
+	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody ProdutoDTO produtoDTO) {
+
+		produtoDTO.setId(id);
+
+		try {
+			produtoService.atualizar(produtoDTO.toModel());
 			return ResponseEntity.ok().build();
-			
-		} 
+		} catch (RuntimeException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
 }
