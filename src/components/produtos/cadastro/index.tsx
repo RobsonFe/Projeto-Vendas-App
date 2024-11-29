@@ -82,7 +82,7 @@ export const CadastroProdutos: React.FC = () => {
                         cadastro: produtoResposta.cadastro // Atualiza a data de cadastro
                     });
                 })
-                .catch(error => setErro('Erro ao salvar o produto. Tente novamente.'));
+                .catch(error => setErro(`Erro ao salvar o produto. Erro: ${error.message}`));
         }
     };
 
