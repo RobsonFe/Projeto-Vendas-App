@@ -14,12 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import br.com.robson.model.Produto;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/v1/produtos/")
@@ -34,7 +32,8 @@ public class ProdutoController {
 	@Operation(summary = "Salva um Produto", description = "Adiciona um novo Produto")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Produto criado com sucesso",
-					content = @Content(schema = @Schema(implementation = ProdutoDTO.class,
+					content = @Content(schema = @Schema(
+							implementation = Produto.class,
 							example = "{\n" +
 									"  \"descricao\": \"Livro de Java para desenvolvedores iniciantes\",\n" +
 									"  \"nome\": \"Livro de Java\",\n" +
@@ -53,7 +52,7 @@ public class ProdutoController {
 	public ResponseEntity<ProdutoDTO> salvar(@RequestBody ProdutoDTO produtoDTO) {
 		Produto produtoSalvo = produtoService.salvar(produtoDTO);
 		ProdutoDTO produtoDTOSalvo = ProdutoDTO.fromModel(produtoSalvo);
-		return ResponseEntity.ok(produtoDTOSalvo);
+		return ResponseEntity.status(HttpStatus.CREATED).body(produtoDTOSalvo);
 	}
 
 	@Operation(summary = "Lista todos os Produtos", description = "Retorna uma lista de todos os Produtos")
@@ -70,7 +69,7 @@ public class ProdutoController {
 			@RequestParam(defaultValue = "10") int size
 	) {
 		Page<ProdutoDTO> produtos = produtoService.listar(page, size);
-		return ResponseEntity.ok(produtos);
+		return ResponseEntity.status(HttpStatus.OK).body(produtos);
 	}
 
 	@Operation(summary = "Busca um Produto pelo ID", description = "Retorna dados de um Produto")
@@ -86,7 +85,7 @@ public class ProdutoController {
 	@GetMapping("buscar/{id}")
 	public ResponseEntity<ProdutoDTO> buscarPorId(@PathVariable Long id) {
 		ProdutoDTO produtoDTO = produtoService.buscarPorId(id);
-		return ResponseEntity.ok(produtoDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(produtoDTO);
 	}
 
 	@Operation(summary = "Busca um Produto pelo Nome", description = "Retorna dados de um Produto pelo nome fornecido")
@@ -102,7 +101,7 @@ public class ProdutoController {
 	@GetMapping("/buscar/nome")
 	public ResponseEntity<List<ProdutoDTO>> buscarPorNome(@RequestParam String nome) {
 		List<ProdutoDTO> produtos = produtoService.buscarPorNome(nome);
-		return ResponseEntity.ok(produtos);
+		return ResponseEntity.status(HttpStatus.OK).body(produtos);
 	}
 
 	@Operation(summary = "Atualiza um Produto", description = "Atualiza as informações de um Produto existente")
@@ -124,10 +123,11 @@ public class ProdutoController {
 		produto.setId(id);
 
 		try {
-			produtoService.atualizar(produto);
-			return ResponseEntity.ok().build();
+			Produto produtoAtualizado = produtoService.atualizar(produto);
+			produtoRepository.save(produtoAtualizado);
+			return ResponseEntity.status(HttpStatus.OK).build();
 		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -143,18 +143,14 @@ public class ProdutoController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("deletar/{id}")
 	public ResponseEntity<Void> remover(@PathVariable Long id) {
-
-        var produtoToDelete = produtoRepository.findById(id);
-
-		if (produtoToDelete.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id inválido");
-		}
-
 		try {
-			produtoService.deletar(produtoToDelete.get());
-			return ResponseEntity.ok().build();
+			produtoService.deletar(id);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} catch (IllegalArgumentException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+
 }

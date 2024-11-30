@@ -35,6 +35,7 @@ public class ProdutoServiceTest {
     void setUp(){
         // Definindo os dados para o DTO e o Modelo
         produtoDTO = new ProdutoDTO();
+        produtoDTO.setId(1L);
         produtoDTO.setNome("PC Gamer");
         produtoDTO.setDescricao("PC Gamer com placa de vídeo RTX 3080");
         produtoDTO.setPreco(new BigDecimal("8000.00"));
@@ -141,38 +142,17 @@ public class ProdutoServiceTest {
 
     @Test
     void testDeletarProduto(){
-        produtoDTO.setId(1L);
+        when(produtoRepository.findById(produto.getId())).thenReturn(Optional.of(produto));
 
-        Produto produto = produtoDTO.toModel();
-
-        when(produtoRepository.findById(produtoDTO.getId())).thenReturn(Optional.of(produto));
-
-        Produto produtoDeletado = produtoService.deletar(produtoDTO.toModel());
+        Produto produtoDeletado = produtoService.deletar(produto.getId());
 
         assertNotNull(produtoDeletado);
+        assertEquals(produto, produtoDeletado);
 
-        verify(produtoRepository, times(1)).findById(anyLong());
-        verify(produtoRepository, times(1)).delete(any(Produto.class));
+        verify(produtoRepository, times(1)).findById(produto.getId());
+        verify(produtoRepository, times(1)).delete(produto);
     }
 
-    @Test
-    void testNaoDeletarProdutoNaoEncontrado(){
-        produtoDTO.setId(1L);
-
-        when(produtoRepository.findById(produtoDTO.getId())).thenReturn(Optional.empty());
-        assertThrows(RuntimeException.class, () -> produtoService.deletar(produtoDTO.toModel()));
-    }
-
-    @Test
-    void testNaoDeletarProdutoIdNaoCorrespondente(){
-        produtoDTO.setId(1L);
-
-        Produto produto = produtoDTO.toModel();
-        produto.setId(2L);
-
-        when(produtoRepository.findById(produtoDTO.getId())).thenReturn(Optional.of(produto));
-        assertThrows(RuntimeException.class, () -> produtoService.deletar(produtoDTO.toModel()));
-    }
 
     @Test
     void testListarProdutos() {

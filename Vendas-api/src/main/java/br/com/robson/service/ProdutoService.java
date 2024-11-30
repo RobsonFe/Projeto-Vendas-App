@@ -14,7 +14,6 @@ import jakarta.persistence.EntityManager;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProdutoService {
@@ -82,19 +81,15 @@ public class ProdutoService {
     }
 
     @Transactional
-    public Produto deletar(Produto produtoDTO) {
+    public Produto deletar(Long id) {
 
-        Produto produtoToDelete = produtoRepository.findById(produtoDTO.getId())
-                .orElseThrow(()-> new RuntimeException("Produto não encontrado"));
-
-        if(!produtoToDelete.getId().equals(produtoDTO.getId())){
-            throw new RuntimeException("Id não correspondente ao produto");
-        }
+        Produto produtoToDelete = produtoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
 
         produtoRepository.delete(produtoToDelete);
-
         return produtoToDelete;
     }
+
 
     private void validarProduto(ProdutoDTO produto) {
         if (produto.getNome() == null || produto.getNome().isEmpty()) {
