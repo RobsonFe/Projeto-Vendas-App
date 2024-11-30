@@ -16,6 +16,7 @@ export const CadastroProdutos: React.FC = () => {
         cadastro: ''
     });
     const [erro, setErro] = useState<string>('');
+    const [sucess, setSucess] = useState<string>('');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -72,7 +73,12 @@ export const CadastroProdutos: React.FC = () => {
 
         if(produto.id){
             service.atualizar(produtoParaSalvar)
-                .catch(error => setErro('Erro ao atualizar o produto.'));
+                .then(() => {
+                    setSucess('Produto atualizado com sucesso!');
+                })
+                .catch(error => {
+                    setErro('Erro ao atualizar o produto.') 
+                });
         }else{
             service.salvar(produtoParaSalvar)
                 .then(produtoResposta => {
@@ -81,15 +87,34 @@ export const CadastroProdutos: React.FC = () => {
                         id: produtoResposta.id,  // Atualiza o id recebido após salvar
                         cadastro: produtoResposta.cadastro // Atualiza a data de cadastro
                     });
+                    setSucess('Produto salvo com sucesso!');
                 })
-                .catch(error => setErro(`Erro ao salvar o produto. Erro: ${error.message}`));
+            .catch(error => {
+                setErro(`Erro ao salvar o produto. Erro: ${error.message}`);
+            });
         }
+    };
+
+    const fechar = () => { 
+        setErro('');
+        setSucess('');
     };
 
 
     return (
         <Layout titulo="Cadastro de Produtos">
-
+            {erro &&
+                <div className="notification is-danger">
+                    <button className="delete" onClick={fechar}></button>
+                    {erro}
+                </div>
+            }
+            {sucess &&
+                <div className="notification is-success">
+                    <button className="delete" onClick={fechar}></button>
+                    {sucess}
+                </div>
+            }
             { produto.id &&
 
             <div className="columns">
@@ -173,10 +198,7 @@ export const CadastroProdutos: React.FC = () => {
                 <div className="control">
                     <button className="button is-link is-light">Voltar</button>
                 </div>
-           </div>
-
-            {erro && <p className="has-text-danger">{erro}</p>}
-            
+            </div>
         </Layout>
     );
 };

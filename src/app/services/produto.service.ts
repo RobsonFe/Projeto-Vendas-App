@@ -18,7 +18,7 @@ export const useProdutoService = () => {
 
     const atualizar = async (produto: Produto): Promise<void> => {
         try {
-            const url: string = `${resourceURL}/${produto.id}`; 
+            const url: string = `${resourceURL}/atualizar/${produto.id}`; 
             await httpClient.put<Produto>(url, produto);
             console.log("Produto Atualizado Com Sucesso!", JSON.stringify(produto, null, 4));
         } catch (error) {
