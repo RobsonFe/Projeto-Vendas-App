@@ -1,3 +1,4 @@
+export { Input } from './common/input/index';
 export { Layout } from './layout';
-export { CadastroProdutos } from './produtos';
+export { CadastroProdutos, Tabela } from './produtos';
 

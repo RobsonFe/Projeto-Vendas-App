@@ -196,12 +196,22 @@ export const CadastroProdutos: React.FC = () => {
                        }
                     </button>
                 </div>
-                <Link href="/">
-                <div className="control">
-                    <button className="button is-link is-light">Voltar</button>
+                <div className="control is-link">
+                    <Link href="/consultas/produtos">
+                        <div className="control">
+                            <button className="button is-link is-info">Tabela</button>
+                        </div>
+                    </Link>
                 </div>
-                </Link>
+                <div className="control is-link">
+                    <Link href="/">
+                        <div className="control">
+                            <button className="button is-link is-warning ">Voltar</button>
+                        </div>
+                    </Link>
+                </div>
             </div>
+            
         </Layout>
     );
 };

@@ -10,7 +10,7 @@ export const Sidebar: React.FC = () => {
       <ul className="menu-list">
         <MenuItem href="/" label="Home" />
         <MenuItem href="/cadastros/produtos" label="Produtos" />
-        <MenuItem href="/" label="Config" />
+        <MenuItem href="/consultas/produtos" label="Tabela" />
         <MenuItem href="/" label="Sair" />
       </ul>
     </aside>
