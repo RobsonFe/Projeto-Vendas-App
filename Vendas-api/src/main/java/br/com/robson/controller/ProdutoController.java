@@ -34,7 +34,14 @@ public class ProdutoController {
 	@Operation(summary = "Salva um Produto", description = "Adiciona um novo Produto")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Produto criado com sucesso",
-					content = @Content(schema = @Schema(implementation = Produto.class))),
+					content = @Content(schema = @Schema(implementation = ProdutoDTO.class,
+							example = "{\n" +
+									"  \"descricao\": \"Livro de Java para desenvolvedores iniciantes\",\n" +
+									"  \"nome\": \"Livro de Java\",\n" +
+									"  \"preco\": 100.00,\n" +
+									"  \"sku\": \"LBDJ\",\n" +
+									"  \"cadastro\": \"30/11/2024\"\n" +
+									"}"))),
 			@ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos",
 					content = @Content),
 			@ApiResponse(responseCode = "500", description = "Erro no servidor",

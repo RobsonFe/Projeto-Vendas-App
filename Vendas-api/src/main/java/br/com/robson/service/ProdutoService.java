@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.persistence.EntityManager;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,8 @@ public class ProdutoService {
     public Produto salvar(ProdutoDTO produtoDTO) {
 
         Produto produto = new Produto();
+
+        validarProduto(produtoDTO);
 
         produto.setNome(produtoDTO.getNome());
         produto.setDescricao(produtoDTO.getDescricao());
@@ -75,7 +78,7 @@ public class ProdutoService {
         produto.setPreco(produtoDTO.getPreco());
         produto.setSku(produtoDTO.getSku());
 
-        return produtoRepository.save(produtoDTO);
+        return produtoRepository.save(produto);
     }
 
     @Transactional
@@ -91,6 +94,21 @@ public class ProdutoService {
         produtoRepository.delete(produtoToDelete);
 
         return produtoToDelete;
+    }
+
+    private void validarProduto(ProdutoDTO produto) {
+        if (produto.getNome() == null || produto.getNome().isEmpty()) {
+            throw new IllegalArgumentException("Nome do produto não pode ser vazio");
+        }
+        if (produto.getDescricao() == null || produto.getDescricao().isEmpty()) {
+            throw new IllegalArgumentException("Descrição do produto não pode ser vazia");
+        }
+        if (produto.getPreco() == null || produto.getPreco().compareTo(BigDecimal.valueOf(0.0)) <= 0) {
+            throw new IllegalArgumentException("Preço do produto não pode ser menor ou igual a zero");
+        }
+        if (produto.getSku() == null || produto.getSku().isEmpty()) {
+            throw new IllegalArgumentException("SKU do produto não pode ser vazio");
+        }
     }
 
 }
