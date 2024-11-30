@@ -82,6 +82,16 @@ public class ProdutoController {
 		return ResponseEntity.ok(produtoDTO);
 	}
 
+	@Operation(summary = "Busca um Produto pelo Nome", description = "Retorna dados de um Produto pelo nome fornecido")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Produto encontrado",
+					content = @Content(schema = @Schema(implementation = Produto.class))),
+			@ApiResponse(responseCode = "404", description = "Produto não encontrado",
+					content = @Content),
+			@ApiResponse(responseCode = "500", description = "Erro no servidor",
+					content = @Content)
+	})
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/buscar/nome")
 	public ResponseEntity<List<ProdutoDTO>> buscarPorNome(@RequestParam String nome) {
 		List<ProdutoDTO> produtos = produtoService.buscarPorNome(nome);

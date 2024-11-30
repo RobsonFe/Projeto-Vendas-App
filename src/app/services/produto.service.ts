@@ -43,7 +43,27 @@ export const useProdutoService = () => {
         } catch (error) {
             throw new Error(`${error}`);
         }
-};
+    };
+    
+    const buscarPorId = async (id: string): Promise<Produto> => {
+        try {
+            const url: string = `${resourceURL}buscar/${id}`;
+            const response: AxiosResponse<Produto> = await httpClient.get<Produto>(url);
+            return response.data;
+        } catch (error) {
+            throw new Error(`Erro ao buscar produto pelo ID: ${error}`);
+        }
+    };
+
+    const buscarPorNome = async (nome: string): Promise<Produto[]> => {
+        try {
+            const url: string = `${resourceURL}buscar/nome?nome=${nome}`;
+            const response: AxiosResponse<Produto[]> = await httpClient.get<Produto[]>(url);
+            return response.data;
+        } catch (error) {
+            throw new Error(`Erro ao buscar produto pelo nome: ${error}`);
+        }
+    };
 
     const deletar = async (id: string): Promise<void> => { 
         try {
@@ -57,6 +77,10 @@ export const useProdutoService = () => {
 
     return {
         salvar,
-        atualizar
+        atualizar,
+        deletar,
+        buscarPaginado,
+        buscarPorId,
+        buscarPorNome,
     }
 }
