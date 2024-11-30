@@ -50,7 +50,7 @@ public class ProdutoService {
 
     @Transactional(readOnly = true)
     public List<ProdutoDTO> buscarPorNome(String nome) {
-        String jpql = "SELECT c FROM Produto c WHERE c.name LIKE :nome";
+        String jpql = "SELECT c FROM Produto c WHERE c.nome LIKE :nome";
         TypedQuery<ProdutoDTO> query = entityManager.createQuery(jpql, ProdutoDTO.class);
         query.setParameter("nome", "%" + nome + "%");
         return query.getResultList();
