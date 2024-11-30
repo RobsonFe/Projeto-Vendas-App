@@ -2,6 +2,7 @@ import { Produto } from 'app/models/produtos';
 import { useProdutoService } from 'app/services';
 import { Layout } from "components";
 import { Input } from 'components/common';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 
@@ -195,9 +196,11 @@ export const CadastroProdutos: React.FC = () => {
                        }
                     </button>
                 </div>
+                <Link href="/">
                 <div className="control">
                     <button className="button is-link is-light">Voltar</button>
                 </div>
+                </Link>
             </div>
         </Layout>
     );
