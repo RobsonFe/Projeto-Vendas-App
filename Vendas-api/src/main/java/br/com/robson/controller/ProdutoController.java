@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import br.com.robson.model.Produto;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -77,11 +78,14 @@ public class ProdutoController {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("buscar/{id}")
 	public ResponseEntity<ProdutoDTO> buscarPorId(@PathVariable Long id) {
-		Optional<Produto> produto = produtoRepository.findById(id);
-		if (produto.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id inválido");
-		}
-		return ResponseEntity.ok(ProdutoDTO.fromModel(produto.get()));
+		ProdutoDTO produtoDTO = produtoService.buscarPorId(id);
+		return ResponseEntity.ok(produtoDTO);
+	}
+
+	@GetMapping("/buscar/nome")
+	public ResponseEntity<List<ProdutoDTO>> buscarPorNome(@RequestParam String nome) {
+		List<ProdutoDTO> produtos = produtoService.buscarPorNome(nome);
+		return ResponseEntity.ok(produtos);
 	}
 
 	@Operation(summary = "Atualiza um Produto", description = "Atualiza as informações de um Produto existente")
