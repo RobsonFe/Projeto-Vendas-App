@@ -6,16 +6,23 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.robson.model.Produto;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Data Transfer Object para a criação de um Produto")
 public class ProdutoDTO {
-	
+	@Schema(description = "Id do Produto", example = "1")
 	private Long id;
+	@Schema(description = "Descrição", example = "Livro de Java para desenvolvedores iniciantes")
 	private String descricao;
+	@Schema(description = "Nome do Produto", example = "Livro de Java")
 	private String nome;
+	@Schema(description = "Preço do Produto", example = "100.00")
 	private BigDecimal preco;
+	@Schema(description = "SKU do Livro", example = "LBDJ")
 	private String sku;	
 	
 	@JsonFormat(pattern = "dd/MM/yyyy") // para retornar um Json no formato de data especifico.
+	@Schema(description = "Data de cadastro do Produto", example = "30/11/2024")
 	private LocalDate cadastro;
 	
 	public ProdutoDTO() {
@@ -39,7 +46,7 @@ public class ProdutoDTO {
 	
 	public static ProdutoDTO fromModel(Produto produto) {
 		return new ProdutoDTO(
-				produto.getId(), 
+				produto.getId(),
 				produto.getDescricao(), 
 				produto.getNome(), 
 				produto.getPreco(), 
@@ -71,7 +78,7 @@ public class ProdutoDTO {
 	public void setSku(String sku) {
 		this.sku = sku;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
