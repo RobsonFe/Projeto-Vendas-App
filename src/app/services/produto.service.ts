@@ -45,16 +45,12 @@ export const ProductService = () => {
     try {
         const url: string = `${resourceURL}listar?page=${page}&size=${size}`;
         const response = await httpClient.get(url);
-        // console.log("Produtos Paginados: ", JSON.stringify(response.data, null, 4));
         return response.data || [];
     } catch (error) {
         console.error("Erro ao buscar produtos paginados:", error);
         throw new Error("Erro ao buscar produtos paginados.");
     }
     };
-    
-    // buscarPaginado(0, 10);
-
     
     const findById = async (id: string): Promise<Produto> => {
         try {
