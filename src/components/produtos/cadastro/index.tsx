@@ -3,7 +3,8 @@ import { useProdutoService } from 'app/services';
 import { Layout } from "components";
 import { Input } from 'components/common';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 
 
 export const CadastroProdutos: React.FC = () => {
@@ -18,6 +19,22 @@ export const CadastroProdutos: React.FC = () => {
     });
     const [erro, setErro] = useState<string>('');
     const [sucess, setSucess] = useState<string>('');
+
+    const router = useRouter();
+
+    const { id } = router.query;
+
+    useEffect(() => {
+        if (id) {
+            service.buscarPorId(id as string)
+                .then(produto => {
+                    setProduto(produto);
+                })
+                .catch(error => {
+                    setErro('Erro ao buscar o produto.' + error.message);
+                });
+        }
+     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;

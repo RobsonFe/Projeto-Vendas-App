@@ -17,7 +17,9 @@ export const Tabela: React.FC = () => {
 			setProdutos(data);
 		})
 		.catch(err => console.error("Erro ao buscar produtos:", err));
-}, []);
+	}, []);
+	
+	
 
 	return (
 		// <>
