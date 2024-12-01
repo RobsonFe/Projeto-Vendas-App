@@ -2,11 +2,11 @@ import { Produto } from "app/models/produtos";
 
 interface ProdutoProps { 
 	produto: Produto;
-	edit: (produto: Produto) => void;
+	onEdit: (produto: Produto) => void;
 	onDelete: (produto: Produto) => void;
 }
 
-export const ProdutosRow: React.FC<ProdutoProps> = ({ produto, edit, onDelete }) => { 
+export const ProdutosRow: React.FC<ProdutoProps> = ({ produto, onEdit: edit, onDelete }) => { 
 	return (
 		<tr className="is-justify-content-center">
 			<td>{produto.id}</td>

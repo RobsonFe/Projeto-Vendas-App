@@ -1,5 +1,6 @@
 import { ProdutosRow } from "app/interfaces/produtos.interface";
 import { Produto } from "app/models/produtos";
+import { ProdutoService } from "app/services/produto.service";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -10,35 +11,54 @@ export interface TabelaProdutosProps {
 export const TabelaComponent: React.FC<TabelaProdutosProps> = ({ produtos }) => {
 	const router = useRouter();
 
+	const [sucessDelete, setSucessDelete] = React.useState<string>("");
+
 	function editar(produto: Produto) {
 		const url = `/cadastros/produtos?id=${produto.id}`;
 		router.push(url);
 	}
 
 	function deletar(produto: Produto) {
-		console.log("Deletando produto:", produto);
+		if (produto.id) {
+			ProdutoService().deletar(produto.id).then(() => {
+				setSucessDelete(`Produto ${produto.nome} deletado com sucesso!`);
+			});
+		}
+
 	}
 
-		return (
-				<table className="table table-hover is-narrow is-hoverable">
-				<thead>
-					<tr>
-						<th>Código</th>
-						<th>Nome</th>
-						<th>SKU</th>
-						<th>Preço</th>
-						<th>Descrição</th>
-						<th></th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					{
-						produtos.map((produto, index) => (
-							<ProdutosRow key={index} produto={produto} edit={editar} onDelete={deletar}/>
-						))
-					}
-				</tbody>
-			</table>
-		);
+	const fechar = () => { 
+        setSucessDelete("");
+    };
+
+	return (
+		<>
+			{sucessDelete &&
+				<div className="notification is-success">
+						<button className="delete" onClick={fechar}></button>
+						{sucessDelete}
+				</div>
+      }
+		<table className="table table-hover is-narrow is-hoverable">
+			<thead>
+				<tr>
+					<th>Código</th>
+					<th>Nome</th>
+					<th>SKU</th>
+					<th>Preço</th>
+					<th>Descrição</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{
+					produtos.map((produto, index) => (
+						<ProdutosRow key={index} produto={produto} onEdit={editar} onDelete={deletar} />
+					))
+				}
+			</tbody>
+		</table>
+		</>
+	);
 };

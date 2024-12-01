@@ -19,6 +19,7 @@ export const CadastroProdutos: React.FC = () => {
     });
     const [erro, setErro] = useState<string>('');
     const [sucess, setSucess] = useState<string>('');
+    const [editar, setEditar] = useState<string>('');
 
     const router = useRouter();
 
@@ -92,7 +93,7 @@ export const CadastroProdutos: React.FC = () => {
         if(produto.id){
             service.atualizar(produtoParaSalvar)
                 .then(() => {
-                    setSucess('Produto atualizado com sucesso!');
+                    setEditar('Produto atualizado com sucesso!');
                 })
                 .catch(error => {
                     setErro('Erro ao atualizar o produto.') 
@@ -116,6 +117,7 @@ export const CadastroProdutos: React.FC = () => {
     const fechar = () => { 
         setErro('');
         setSucess('');
+        setEditar('');
     };
 
 
@@ -131,6 +133,12 @@ export const CadastroProdutos: React.FC = () => {
                 <div className="notification is-success">
                     <button className="delete" onClick={fechar}></button>
                     {sucess}
+                </div>
+            }
+            {editar &&
+                <div className="notification is-link">
+                    <button className="delete" onClick={fechar}></button>
+                    {editar}
                 </div>
             }
             { produto.id &&

@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 
 const resourceURL: string = "/api/v1/produtos/";
 
-export const useProdutoService = () => {
+export const ProdutoService = () => {
 
     const salvar = async (produto: Produto): Promise<Produto> => {
         try {     
@@ -80,7 +80,7 @@ export const useProdutoService = () => {
         }
     };
 
-    const deletar = async (id: string): Promise<void> => { 
+    const deletar = async (id: string ): Promise<void> => { 
         try {
             const url: string = `${resourceURL}deletar/${id}`;
             await httpClient.delete(url);
