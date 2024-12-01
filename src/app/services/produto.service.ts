@@ -4,9 +4,9 @@ import { AxiosResponse } from 'axios';
 
 const resourceURL: string = "/api/v1/produtos/";
 
-export const ProdutoService = () => {
+export const ProductService = () => {
 
-    const salvar = async (produto: Produto): Promise<Produto> => {
+    const create = async (produto: Produto): Promise<Produto> => {
         try {     
             const response: AxiosResponse<Produto> = await httpClient.post<Produto>(`${resourceURL}salvar/`,produto)
             console.log("Produto Salvo Com Sucesso! ", JSON.stringify(produto, null, 4));
@@ -18,7 +18,7 @@ export const ProdutoService = () => {
         }
     }
 
-    const atualizar = async (produto: Produto): Promise<void> => {
+    const update = async (produto: Produto): Promise<void> => {
         try {
             const url: string = `${resourceURL}atualizar/${produto.id}`; 
             await httpClient.put<Produto>(url, produto);
@@ -30,7 +30,7 @@ export const ProdutoService = () => {
         }
     }
 
-    const buscarTodos = async (): Promise<Produto[]> => {
+    const fetchAll = async (): Promise<Produto[]> => {
     try {
         const response = await httpClient.get(`${resourceURL}listar`);
         return response.data.content || []; 
@@ -41,7 +41,7 @@ export const ProdutoService = () => {
 };
 
 
-    const buscarPaginado = async (page: number, size: number): Promise<PaginatedResponse<Produto>> => {
+    const findAllWithPagination = async (page: number, size: number): Promise<PaginatedResponse<Produto>> => {
     try {
         const url: string = `${resourceURL}listar?page=${page}&size=${size}`;
         const response = await httpClient.get(url);
@@ -56,7 +56,7 @@ export const ProdutoService = () => {
     // buscarPaginado(0, 10);
 
     
-    const buscarPorId = async (id: string): Promise<Produto> => {
+    const findById = async (id: string): Promise<Produto> => {
         try {
             const url: string = `${resourceURL}buscar/${id}`;
             const response: AxiosResponse<Produto> = await httpClient.get<Produto>(url);
@@ -68,7 +68,7 @@ export const ProdutoService = () => {
         }
     };
 
-    const buscarPorNome = async (nome: string): Promise<Produto[]> => {
+    const findByName = async (nome: string): Promise<Produto[]> => {
         try {
             const url: string = `${resourceURL}buscar/nome?nome=${nome}`;
             const response: AxiosResponse<Produto[]> = await httpClient.get<Produto[]>(url);
@@ -80,7 +80,7 @@ export const ProdutoService = () => {
         }
     };
 
-    const deletar = async (id: string ): Promise<void> => { 
+    const remove = async (id: string ): Promise<void> => { 
         try {
             const url: string = `${resourceURL}deletar/${id}`;
             await httpClient.delete(url);
@@ -93,12 +93,12 @@ export const ProdutoService = () => {
     }
 
     return {
-        salvar,
-        atualizar,
-        deletar,
-        buscarPaginado,
-        buscarPorId,
-        buscarPorNome,
-        buscarTodos
+        create,
+        update,
+        remove,
+        findAllWithPagination,
+        findById,
+        findByName,
+        fetchAll
     }
 }

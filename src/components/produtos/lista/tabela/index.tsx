@@ -1,6 +1,6 @@
 import { ProdutosRow } from "app/interfaces/produtos.interface";
 import { Produto } from "app/models/produtos";
-import { ProdutoService } from "app/services/produto.service";
+import { ProductService } from "app/services/produto.service";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -10,7 +10,7 @@ export interface TabelaProdutosProps {
 
 export const TabelaComponent: React.FC<TabelaProdutosProps> = ({ produtos }) => {
     const router = useRouter();
-    const { buscarTodos, deletar } = ProdutoService();
+    const { fetchAll, remove } = ProductService();
 
     const [list, setList] = useState<Produto[]>(produtos);
     const [sucessDelete, setSucessDelete] = useState<string>("");
@@ -23,7 +23,7 @@ export const TabelaComponent: React.FC<TabelaProdutosProps> = ({ produtos }) => 
     const handleDelete = (produto: Produto) => {
         if (!produto.id) return;
 
-        deletar(produto.id)
+        remove(produto.id)
             .then(() => {
                 setSucessDelete(`Produto ${produto.nome} deletado com sucesso!`);
                 setList((prevList) => prevList.filter((p) => p.id !== produto.id));
@@ -32,7 +32,7 @@ export const TabelaComponent: React.FC<TabelaProdutosProps> = ({ produtos }) => 
     };
 
     useEffect(() => {
-        buscarTodos()
+        fetchAll()
             .then((data) => {
                 setList(data || []);
             })

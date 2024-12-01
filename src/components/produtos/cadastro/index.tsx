@@ -27,7 +27,7 @@ export const CadastroProdutos: React.FC = () => {
 
     useEffect(() => {
         if (id) {
-            service.buscarPorId(id as string)
+            service.findById(id as string)
                 .then(produto => {
                     setProduto(produto);
                 })
@@ -91,7 +91,7 @@ export const CadastroProdutos: React.FC = () => {
          const produtoParaSalvar: Produto = { ...produto, preco: parseFloat(produto.preco?.toString() || '0') };
 
         if(produto.id){
-            service.atualizar(produtoParaSalvar)
+            service.update(produtoParaSalvar)
                 .then(() => {
                     setEditar('Produto atualizado com sucesso!');
                 })
@@ -99,7 +99,7 @@ export const CadastroProdutos: React.FC = () => {
                     setErro('Erro ao atualizar o produto.') 
                 });
         }else{
-            service.salvar(produtoParaSalvar)
+            service.create(produtoParaSalvar)
                 .then(produtoResposta => {
                     setProduto({
                         ...produto,

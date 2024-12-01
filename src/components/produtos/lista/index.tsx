@@ -7,12 +7,12 @@ import { TabelaComponent } from "./tabela";
 
 export const Tabela: React.FC = () => { 
 
-	const { buscarTodos } = useProdutoService();
+	const { fetchAll } = useProdutoService();
 
 	const [produtos, setProdutos] = useState<Produto[]>([]);
 
 	useEffect(() => {
-	buscarTodos()
+	fetchAll()
 		.then(data => {
 			setProdutos(data);
 		})
