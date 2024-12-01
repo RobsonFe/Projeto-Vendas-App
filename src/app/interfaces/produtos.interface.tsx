@@ -28,7 +28,7 @@ export const ProdutosRow: React.FC<ProdutoProps> = ({ produto, onEdit: edit, onD
             <td>{produto.id}</td>
             <td>{produto.nome}</td>
             <td>{produto.sku}</td>
-            <td>{produto.preco}</td>
+            <td>{produto.preco?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
             <td>{produto.descricao}</td>
             <td className="field is-grouped">
                 {!toDelete ? (

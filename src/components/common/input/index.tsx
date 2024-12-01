@@ -1,7 +1,12 @@
 import { InputProps } from "app/types/input.type";
 import React, { InputHTMLAttributes } from "react";
+import CurrencyInput from "react-currency-input-field";
 
-type Props = InputProps & InputHTMLAttributes<HTMLInputElement>;
+type BaseProps = InputProps & InputHTMLAttributes<HTMLInputElement>;
+
+type Props = BaseProps & {
+    maskType?: "currency"; 
+};
 
 export const Input: React.FC<Props> = ({
 		label,
@@ -10,6 +15,7 @@ export const Input: React.FC<Props> = ({
 		onChange,
 		disabled,
 		type,
+		maskType,
 		...props
 }) => {
 	return (
@@ -17,15 +23,38 @@ export const Input: React.FC<Props> = ({
 					<div className={`field column ${props?.className}`}>
 					<label className="label" htmlFor={name}>{label}</label>
 							<div className="control">
-						<input className="input"
-							id={props?.id || name}
-							name={name}
-							value={value}
-							onChange={onChange}
-							type={type}
-							placeholder={props?.placeholder}
-							disabled={disabled}
-							/>
+						{maskType === "currency" ? (
+                    <CurrencyInput
+                        id={props?.id || name}
+                        name={name}
+                        value={value}
+                        onValueChange={(value) => {
+                            if (onChange) {
+                                const event = {
+                                    target: { value: value || '' }
+                                } as React.ChangeEvent<HTMLInputElement>;
+                                onChange(event);
+                            }
+                        }}
+                        prefix="R$ "
+                        decimalSeparator=","
+                        groupSeparator="."
+                        disabled={disabled}
+                        className="input"
+                        placeholder={props?.placeholder}
+                    />
+                ) : (
+                    <input
+                        id={props?.id || name}
+                        name={name}
+                        value={value}
+                        onChange={onChange}
+                        type={type}
+                        disabled={disabled}
+                        className="input"
+                        placeholder={props?.placeholder}
+                    />
+                )}
 							</div>
 				</div>
 

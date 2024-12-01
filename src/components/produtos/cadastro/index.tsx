@@ -53,6 +53,14 @@ export const CadastroProdutos: React.FC = () => {
         }
     };
 
+    const handlePriceChange = (value: string | undefined) => {
+        const parsedValue = value ? parseFloat(value.replace(/,/g, '')) : 0;
+        setProduto((prev) => ({
+            ...prev,
+            preco: parsedValue,
+        }));
+    };
+
     const validarFormulario = () => {
         const validationCase = () => {
             if (!produto.nome || !produto.preco || !produto.sku || !produto.descricao) return 1;
@@ -177,15 +185,19 @@ export const CadastroProdutos: React.FC = () => {
             </div>
             
             <div className='columns'>
-                <Input label="Preço: *"
-                    className='is-half'
-                    name="preco"
-                    value={produto.preco}
-                    onChange={handleChange}
-                    type="text"
-                    placeholder='Digite o preço do Produto'
-                />
-                
+                <Input
+                        label="Preço: *"
+                        name="preco"
+                        value={produto.preco}
+                        onChange={(e) =>
+                            setProduto((prev) => ({
+                                ...prev,
+                                preco: parseFloat(e.target.value) || 0
+                            }))
+                        }
+                        maskType="currency"
+                        placeholder="Digite o preço do Produto"
+                    />
                 <Input label="SKU: *"
                     className='is-half'
                     name="sku"
