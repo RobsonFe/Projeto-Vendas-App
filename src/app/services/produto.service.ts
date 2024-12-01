@@ -12,7 +12,9 @@ export const useProdutoService = () => {
             console.log("Produto Salvo Com Sucesso! ", JSON.stringify(produto, null, 4));
             return response.data;
         } catch (error) {
-            throw new Error(`${error}`);
+            const err = error as any;
+            throw new Error(err.response?.data?.message || err.message || "Erro no fetch dos dados");
+
         }
     }
 
@@ -22,28 +24,37 @@ export const useProdutoService = () => {
             await httpClient.put<Produto>(url, produto);
             console.log("Produto Atualizado Com Sucesso!", JSON.stringify(produto, null, 4));
         } catch (error) {
-            throw new Error(`${error}`);
+            const err = error as any;
+            throw new Error(err.response?.data?.message || err.message || "Erro no fetch dos dados");
+
         }
     }
 
-    // const buscarTodos = async (): Promise<Produto[]> => { 
-    //     try {
-    //         const response: AxiosResponse<Produto[]> = await httpClient.get<Produto[]>(resourceURL);
-    //         return response.data;
-    //     } catch (error) {
-    //         throw new Error(`${error}`);
-    //     }
-    // };
+    const buscarTodos = async (): Promise<Produto[]> => {
+    try {
+        const response = await httpClient.get(`${resourceURL}listar`);
+        return response.data.content || []; 
+    } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+        return [];
+    }
+};
+
 
     const buscarPaginado = async (page: number, size: number): Promise<PaginatedResponse<Produto>> => {
-        try {
-            const url: string = `${resourceURL}?page=${page}&size=${size}`;
-            const response: AxiosResponse<PaginatedResponse<Produto>> = await httpClient.get<PaginatedResponse<Produto>>(url);
-            return response.data;
-        } catch (error) {
-            throw new Error(`${error}`);
-        }
+    try {
+        const url: string = `${resourceURL}listar?page=${page}&size=${size}`;
+        const response = await httpClient.get(url);
+        // console.log("Produtos Paginados: ", JSON.stringify(response.data, null, 4));
+        return response.data || [];
+    } catch (error) {
+        console.error("Erro ao buscar produtos paginados:", error);
+        throw new Error("Erro ao buscar produtos paginados.");
+    }
     };
+    
+    // buscarPaginado(0, 10);
+
     
     const buscarPorId = async (id: string): Promise<Produto> => {
         try {
@@ -51,7 +62,9 @@ export const useProdutoService = () => {
             const response: AxiosResponse<Produto> = await httpClient.get<Produto>(url);
             return response.data;
         } catch (error) {
-            throw new Error(`Erro ao buscar produto pelo ID: ${error}`);
+            const err = error as any;
+            throw new Error(err.response?.data?.message || err.message || "Erro no fetch dos dados");
+
         }
     };
 
@@ -61,7 +74,9 @@ export const useProdutoService = () => {
             const response: AxiosResponse<Produto[]> = await httpClient.get<Produto[]>(url);
             return response.data;
         } catch (error) {
-            throw new Error(`Erro ao buscar produto pelo nome: ${error}`);
+            const err = error as any;
+            throw new Error(err.response?.data?.message || err.message || "Erro no fetch dos dados");
+
         }
     };
 
@@ -71,7 +86,9 @@ export const useProdutoService = () => {
             await httpClient.delete(url);
             console.log("Produto Deletado Com Sucesso!", JSON.stringify(id, null, 4));
         } catch (error) {
-            throw new Error(`${error}`);
+            const err = error as any;
+            throw new Error(err.response?.data?.message || err.message || "Erro no fetch dos dados");
+
         }
     }
 
@@ -82,5 +99,6 @@ export const useProdutoService = () => {
         buscarPaginado,
         buscarPorId,
         buscarPorNome,
+        buscarTodos
     }
 }

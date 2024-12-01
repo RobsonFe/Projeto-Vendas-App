@@ -6,10 +6,7 @@ export interface TabelaProdutosProps {
 	produtos: Produto[];
 };
 
-export const TabelaComponent: React.FC<TabelaProdutosProps> = ({
-	produtos
-}) => { 
-	
+export const TabelaComponent: React.FC<TabelaProdutosProps> = ({produtos}) => {
 		return (
 				<table className="table table-hover is-narrow is-hoverable">
 				<thead>

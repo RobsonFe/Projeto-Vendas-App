@@ -10,14 +10,11 @@ export const Loader: React.FC = () => {
   // );
 
   return (
-    <div className="dots-container__wrapper">
-      <div className="dots-container">
-        <div className="dots bg-prussianBlue dark:bg-blue-600"></div>
-        <div className="dots bg-prussianBlue dark:bg-blue-600"></div>
-        <div className="dots bg-prussianBlue dark:bg-blue-600"></div>
-        <div className="dots bg-prussianBlue dark:bg-blue-600"></div>
-        <div className="dots bg-prussianBlue dark:bg-blue-600"></div>
-      </div>
-    </div>
+        <div className="lds-ring ">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
   );
 };
