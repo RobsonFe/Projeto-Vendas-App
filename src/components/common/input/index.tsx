@@ -19,45 +19,42 @@ export const Input: React.FC<Props> = ({
 		...props
 }) => {
 	return (
-			
-					<div className={`field column ${props?.className}`}>
-					<label className="label" htmlFor={name}>{label}</label>
-							<div className="control">
-						{maskType === "currency" ? (
-                    <CurrencyInput
-                        id={props?.id || name}
-                        name={name}
-                        value={value}
-                        onValueChange={(value) => {
-                            if (onChange) {
-                                const event = {
-                                    target: { value: value || '' }
-                                } as React.ChangeEvent<HTMLInputElement>;
-                                onChange(event);
-                            }
-                        }}
-                        prefix="R$ "
-                        decimalSeparator=","
-                        groupSeparator="."
-                        disabled={disabled}
-                        className="input"
-                        placeholder={props?.placeholder}
-                    />
-                ) : (
-                    <input
-                        id={props?.id || name}
-                        name={name}
-                        value={value}
-                        onChange={onChange}
-                        type={type}
-                        disabled={disabled}
-                        className="input"
-                        placeholder={props?.placeholder}
-                    />
-                )}
-							</div>
-				</div>
-
-
-		);
+        <div className={`field column ${props?.className}`}>
+        <label className="label" htmlFor={name}>{label}</label>
+                <div className="control">
+            {maskType === "currency" ? (
+        <CurrencyInput
+            id={props?.id || name}
+            name={name}
+            value={value}
+            onValueChange={(value) => {
+            if (onChange) {
+                const event = {
+                    target: { value: value || '' }
+                } as React.ChangeEvent<HTMLInputElement>;
+                onChange(event);
+            }
+            }}
+            prefix="R$ "
+            decimalSeparator=","
+            groupSeparator="."
+            disabled={disabled}
+            className="input"
+            placeholder={props?.placeholder}
+        />
+    ) : (
+        <input
+            id={props?.id || name}
+            name={name}
+            value={value}
+            onChange={onChange}
+            type={type}
+            disabled={disabled}
+            className="input"
+            placeholder={props?.placeholder}
+        />
+        )}
+			</div>
+	</div>
+);
 };
